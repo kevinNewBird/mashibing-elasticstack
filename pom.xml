@@ -22,7 +22,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <elasticsearch.version>7.12.1</elasticsearch.version>
+    <elasticsearch.version>7.12.0</elasticsearch.version>
   </properties>
 
   <dependencies>
@@ -71,12 +71,42 @@
       <version>1.5.0.RELEASE</version>
     </dependency>
 
-    <!--对应的es服务端大版本必须是7.x，当前使用的ES是7.12.0，依赖是7.12.1。
+    <!--java api-->
+    <!--transport client:对应的es服务端大版本必须是7.x，当前使用的ES是7.12.0，依赖是7.12.1。
     也就是大版本要相同-->
+<!--    <dependency>-->
+<!--      <groupId>org.elasticsearch.client</groupId>-->
+<!--      <artifactId>transport</artifactId>-->
+<!--      <version>${elasticsearch.version}</version>-->
+<!--    </dependency>-->
+
+
+    <!--rest api-->
+    <!--low level client:兼容所有版本-->
     <dependency>
       <groupId>org.elasticsearch.client</groupId>
-      <artifactId>transport</artifactId>
+      <artifactId>elasticsearch-rest-client</artifactId>
       <version>${elasticsearch.version}</version>
+    </dependency>
+
+    <!--high level client: 主版本必须一致，次要版本向后兼容。也就是说，可以使用7.9.3client-->
+    <dependency>
+      <groupId>org.elasticsearch.client</groupId>
+      <artifactId>elasticsearch-rest-high-level-client</artifactId>
+      <version>${elasticsearch.version}</version>
+    </dependency>
+
+    <!--嗅探器sniffer-->
+    <dependency>
+      <groupId>org.elasticsearch.client</groupId>
+      <artifactId>elasticsearch-rest-client-sniffer</artifactId>
+      <version>${elasticsearch.version}</version>
+    </dependency>
+
+    <!--google: gson-->
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
     </dependency>
 
     <dependency>
