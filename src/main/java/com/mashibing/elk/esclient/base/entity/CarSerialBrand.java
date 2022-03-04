@@ -6,6 +6,7 @@ import com.gitee.sunchenbin.mybatis.actable.annotation.IsKey;
 import com.gitee.sunchenbin.mybatis.actable.annotation.Table;
 import com.gitee.sunchenbin.mybatis.actable.constants.MySqlCharsetConstant;
 import com.gitee.sunchenbin.mybatis.actable.constants.MySqlEngineConstant;
+import com.gitee.sunchenbin.mybatis.actable.constants.MySqlTypeConstant;
 import lombok.Data;
 
 /**
@@ -17,34 +18,37 @@ import lombok.Data;
  * version 1.0
  */
 @Data
-@Table(name = "ims_autoparts_car_brand", engine = MySqlEngineConstant.InnoDB, charset = MySqlCharsetConstant.UTF8, comment = "汽车品牌表")
+@Table(name = "car_serial_brand", engine = MySqlEngineConstant.InnoDB, charset = MySqlCharsetConstant.UTF8, comment = "汽车品牌表")
 public class CarSerialBrand {
     @IsKey
     @IsAutoIncrement
     private Integer id;
 
-    @Column(name = "master_brand_id")
-    private Integer masterBrandId;
-    
-    @Column(name = "master_brand_name")
-    private String masterBrandName;
-    
-    @Column(name = "brand_id")
-    private Integer brandId;
-    
-    @Column(name = "brand_name")
+    @Column(name = "uniacid")
+    private Integer uniacid;
+
+    @Column(name = "parent_id")
+    private Integer parentId;
+
+    @Column(name = "initials",comment = "首字母",length = 5)
+    private String initials;
+
+    @Column(name = "brand_name",comment = "品牌名")
     private String brandName;
-    
-    @Column(name = "series_id")
-    private Integer seriesId;
-    
-    @Column(name = "series_name")
-    private String seriesName;
-    
-    @Column(name = "model_id")
-    private Integer modelId;
-    
-    @Column(name = "sale_name")
-    private String saleName;
+
+    @Column(name = "pic_url",type = MySqlTypeConstant.LONGTEXT)
+    private String picUrl;
+
+    @Column(name = "status",type = MySqlTypeConstant.TINYINT,length = 1)
+    private byte status;
+
+    @Column(name = "sort",defaultValue = "1")
+    private Integer sort;
+
+    @Column(name = "is_hot",type = MySqlTypeConstant.TINYINT,length = 1)
+    private byte isHot;
+
+    @Column
+    private Integer createTime;
     
 }
