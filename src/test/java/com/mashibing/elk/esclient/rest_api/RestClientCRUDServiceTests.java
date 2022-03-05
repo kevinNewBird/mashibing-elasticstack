@@ -72,10 +72,4 @@ public class RestClientCRUDServiceTests {
         crudService.updateByQuery();
     }
 
-
-
-    @Test
-    public void testBulkInit() {
-        crudService.bulkInit();
-    }
 }

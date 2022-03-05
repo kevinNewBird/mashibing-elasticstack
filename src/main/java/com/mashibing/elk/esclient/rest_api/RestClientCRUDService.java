@@ -8,7 +8,6 @@ import com.mashibing.elk.esclient.base.service.ProductService;
 import com.mashibing.elk.esclient.rest_api.util.ESRestClientUtil;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpHost;
 import org.elasticsearch.action.ActionListener;
 import org.elasticsearch.action.admin.indices.alias.Alias;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
@@ -22,16 +21,10 @@ import org.elasticsearch.action.get.*;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.support.master.AcknowledgedResponse;
-import org.elasticsearch.client.Node;
 import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.client.indices.GetIndexResponse;
-import org.elasticsearch.client.sniff.ElasticsearchNodesSniffer;
-import org.elasticsearch.client.sniff.NodesSniffer;
-import org.elasticsearch.client.sniff.SniffOnFailureListener;
-import org.elasticsearch.client.sniff.Sniffer;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.common.xcontent.XContentBuilder;
@@ -46,8 +39,8 @@ import org.elasticsearch.search.fetch.subphase.FetchSourceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -276,30 +269,5 @@ public class RestClientCRUDService {
         client.close();
     }
 
-    @SneakyThrows
-    public void bulkInit() {
-        RestHighLevelClient client = ESRestClientUtil.getInstance().getHighLevelClient();
-        GetIndexRequest request = new GetIndexRequest("msb_car_serial_brand");
-        boolean exists = client.indices().exists(request, RequestOptions.DEFAULT);
-        if (!exists) {
-            CreateIndexRequest createRequest = new CreateIndexRequest("msb_car_serial_brand");
-            createRequest.settings(Settings.builder()
-                    .put("index.number_of_shards", 3)
-                    .put("index.number_of_replicas", 2)
-            );
-            CreateIndexResponse createIndexResponse = client.indices().create(createRequest, RequestOptions.DEFAULT);
-        }
-        List<CarSerialBrand> list = carService.list();
-        //批量插入数据，更新和删除同理
-        BulkRequest bulkRequest = new BulkRequest("msb_car_serial_brand");
-        Gson gson = new Gson();
-        for (int i = 0; i < list.size(); i++) {
-            bulkRequest.add(new IndexRequest().id(Integer.toString(i)).source(gson.toJson(list.get(i)), XContentType.JSON));
-        }
-        BulkResponse response = client.bulk(bulkRequest, RequestOptions.DEFAULT);
-        System.out.println("数量:" + response.getItems().length);
 
-        ESRestClientUtil.getInstance().closeClient();
-
-    }
 }

@@ -7,27 +7,27 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
- * description  RestClientSnifferTests <BR>
+ * description  CarDataInitializeServiceTests <BR>
  * <p>
  * author: zhao.song
- * date: created in 14:30  2022/3/4
+ * date: created in 9:25  2022/3/5
  * company: TRS信息技术有限公司
  * version 1.0
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class RestClientSnifferServiceTests {
+public class CarDataInitializeServiceTests {
 
     @Autowired
-    private RestClientSnifferService snifferService;
+    private CarDataInitializeService carDataService;
 
     @Test
-    public void testSniffer() {
-        snifferService.sniffer();
+    public void testBulkInitWithCarBrand() {
+        carDataService.bulkInitWithCarBrand();
     }
 
     @Test
-    public void testSnifferTest() {
-        snifferService.snifferTest();
+    public void testBulkInitWithCarType() {
+        carDataService.bulkInitWithCarType();
     }
 }

@@ -1,6 +1,9 @@
 package com.mashibing.elk.esclient.base.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * description  ResultDto <BR>
@@ -11,6 +14,9 @@ import lombok.Data;
  * version 1.0
  */
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ResultDto<T> {
 
     private boolean success;

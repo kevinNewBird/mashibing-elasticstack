@@ -35,7 +35,7 @@ public class RestClientSnifferService {
     @SneakyThrows
     public void sniffer() {
 
-        //region 监听器
+        //region 监听器（和嗅探器的setSniffAfterFailureDelayMillis参数息息相关）
         SniffOnFailureListener sniffOnFailureListener =
                 new SniffOnFailureListener();
         //endregion
@@ -55,7 +55,7 @@ public class RestClientSnifferService {
 
         //region 3:为RestClient绑定嗅探器
         Sniffer sniffer = Sniffer.builder(restClient)
-                .setSniffIntervalMillis(5000)//每隔多久嗅探一次
+                .setSniffIntervalMillis(5000)//每隔多久嗅探一次,默认5分钟
                 .setSniffAfterFailureDelayMillis(30000) //若没有绑定监听器则无效 嗅探失败时候触发嗅探一次 经过设置的时间之后再次嗅探 直至正常
                 .setNodesSniffer(nodesSniffer)//如果要使用HTTPS 必须设置的对象
                 .build();
